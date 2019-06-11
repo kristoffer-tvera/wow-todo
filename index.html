@@ -18,7 +18,7 @@
 
 <body>
     <!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> "browser" (its not really a browser now, is it). Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
     <!-- Add your site or application content here -->
 
@@ -36,37 +36,50 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="addcharform">
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter name">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
                         </div>
 
                         <div class="form-group">
                             <label for="class">Select class</label>
-                            <select class="form-control" id="class">
+                            <select class="form-control" id="class" name="class">
                                 <option value="0">Warrior</option>
-                                <option value="1">Hunter</option>
-                                <option value="2">Palading</option>
+                                <option value="1">Paladin</option>
+                                <option value="2">Hunter</option>
                                 <option value="3">Rogue</option>
                                 <option value="4">Priest</option>
                                 <option value="5">Death Knight</option>
+                                <option value="6">Shaman</option>
+                                <option value="7">Mage</option>
+                                <option value="8">Warlock</option>
+                                <option value="9">Monk</option>
+                                <option value="10">Druid</option>
+                                <option value="11">Demon Hunter</option>
                             </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        onclick="AddCharacter()">Add</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="app">
+        {{ message }}
 
+        <ol>
+            <li v-for="character in characters">
+                <span>{{ character.id }}</span>, <span>{{ character.name }}</span>, <span>{{ character.class }}</span>
+            </li>
+        </ol>
+    </div>
 
-
-    <script src="script/site.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -76,6 +89,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="script/site.min.js"></script>
 </body>
 
 </html>

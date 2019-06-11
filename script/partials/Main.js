@@ -13,13 +13,38 @@ classes[10] = { name: 'Druid', color: '#FF7D0A' };
 classes[11] = { name: 'Demon Hunter', color: '#A330C9' };
 
 var dummy1 = {
+    id: 0,
     name: 'Test1',
-    class: 1
+    class: classes[2]
 };
 
 var dummy2 = {
+    id: 1,
     name: 'Test2',
-    class: 2
+    class: classes[7]
 };
 
-var data = [dummy1, dummy2];
+var charData = [dummy1, dummy2];
+
+function AddCharacter() {
+    var form = document.getElementById('addcharform');
+    var formData = new FormData(form);
+
+    var charName = formData.get('name');
+    var charClass = formData.get('class');
+
+    charData.push({
+        id: charData.length,
+        name: charName,
+        class: classes[charClass]
+    });
+
+    form.reset();
+}
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        characters: charData
+    }
+})
