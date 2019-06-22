@@ -24,7 +24,12 @@ var dummy2 = {
     class: classes[7]
 };
 
-var charData = [dummy1, dummy2];
+var data = {
+    characters: [],
+    tasks: []
+};
+
+data.characters = [dummy1, dummy2];
 
 function AddCharacter() {
     var form = document.getElementById('addcharform');
@@ -33,8 +38,8 @@ function AddCharacter() {
     var charName = formData.get('name');
     var charClass = formData.get('class');
 
-    charData.push({
-        id: charData.length,
+    data.characters.push({
+        id: characters.length,
         name: charName,
         class: classes[charClass]
     });
@@ -42,9 +47,29 @@ function AddCharacter() {
     form.reset();
 }
 
+function Reset(){
+    data = {
+        characters: [],
+        tasks: []
+    };
+}
+
+function Import(){
+    var form = document.getElementById('addcharform');
+    var textarea = form.querySelector('textarea');
+    var json = textarea.value;
+    if(json === '' || json.trim() === ''){
+        alert('no data');
+        return;
+    }
+
+    data = JSON.parse(json);
+}
+
 var app = new Vue({
     el: '#app',
     data: {
-        characters: charData
+        characters: data.characters,
+        tasks: data.tasks
     }
 })
