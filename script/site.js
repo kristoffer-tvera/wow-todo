@@ -69,7 +69,8 @@ function AddTask() {
 }
 
 function RemoveTask(index){
-    console.log(index);
+    data.tasks.splice(index, 1);
+    data.status.splice(index, 1);
 }
 
 function ResetCheckboxes() {
