@@ -66,6 +66,19 @@ function Import(){
     data = JSON.parse(json);
 }
 
+function Export(){
+    var form = document.getElementById('addcharform');
+    var textarea = form.querySelector('textarea');
+    textarea.value = JSON.stringify(data);
+    var json = textarea.value;
+    if(json === '' || json.trim() === ''){
+        alert('no data');
+        return;
+    }
+
+    data = JSON.parse(json);
+}
+
 var app = new Vue({
     el: '#app',
     data: {
