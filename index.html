@@ -4,11 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>replace</title>
+    <title>WoW Todo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="manifest" href="site.webmanifest">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -24,6 +22,10 @@
 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addchar">
         Add char
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#data">
+        Import / Export
     </button>
 
     <div class="modal" tabindex="-1" role="dialog" id="addchar">
@@ -70,15 +72,54 @@
         </div>
     </div>
 
-    <div id="app">
-        {{ message }}
+    <div class="modal" tabindex="-1" role="dialog" id="data">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Import / Export</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="dataform">
+                        <div class="form-group">
+                            <label for="datatextarea">Data</label>
+                            <textarea id="datatextarea" class="form-control" rows="5"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="Import()">Import</button>
+                    <button type="button" class="btn btn-primary" onclick="Export()">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- <div id="app">
         <ol>
             <li v-for="character in characters">
                 <span>{{ character.id }}</span>, <span>{{ character.name }}</span>, <span>{{ character.class }}</span>
             </li>
         </ol>
-    </div>
+    </div> -->
+
+    <table class="table table-hover" id="app">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th v-for="character in characters">{{character.name}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(task, taskIndex) in tasks">
+            <th scope="row"> {{task}}</th>
+            <td v-for="(character, characterIndex) in characters"> <input type="checkbox" value="true" v-model="status[taskIndex][characterIndex]"> </td>
+          </tr>
+        </tbody>
+      </table>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

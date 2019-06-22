@@ -26,10 +26,15 @@ var dummy2 = {
 
 var data = {
     characters: [],
-    tasks: []
+    tasks: [],
+    status: []
 };
 
 data.characters = [dummy1, dummy2];
+data.tasks = ['Oondasta', 'Sha'];
+data.status = [];
+data.status[0] = [];
+data.status[1] = [];
 
 function AddCharacter() {
     var form = document.getElementById('addcharform');
@@ -39,7 +44,7 @@ function AddCharacter() {
     var charClass = formData.get('class');
 
     data.characters.push({
-        id: characters.length,
+        id: data.characters.length,
         name: charName,
         class: classes[charClass]
     });
@@ -47,42 +52,46 @@ function AddCharacter() {
     form.reset();
 }
 
-function Reset(){
+function Reset() {
     data = {
         characters: [],
-        tasks: []
+        tasks: [],
+        status: []
     };
 }
 
-function Import(){
-    var form = document.getElementById('addcharform');
+function Import() {
+    var form = document.getElementById('dataform');
     var textarea = form.querySelector('textarea');
     var json = textarea.value;
-    if(json === '' || json.trim() === ''){
+    if (json === '' || json.trim() === '') {
         alert('no data');
         return;
     }
 
-    data = JSON.parse(json);
+    try {
+        data = JSON.parse(json);
+        app.characters = data.characters;
+        app.tasks = data.tasks;
+        app.status = data.status;
+
+        alert('Successfully imported data');
+    } catch (error) {
+        alert('Failed during import, data looks invalid');
+    }
 }
 
-function Export(){
-    var form = document.getElementById('addcharform');
+function Export() {
+    var form = document.getElementById('dataform');
     var textarea = form.querySelector('textarea');
     textarea.value = JSON.stringify(data);
-    var json = textarea.value;
-    if(json === '' || json.trim() === ''){
-        alert('no data');
-        return;
-    }
-
-    data = JSON.parse(json);
 }
 
 var app = new Vue({
     el: '#app',
     data: {
         characters: data.characters,
-        tasks: data.tasks
+        tasks: data.tasks,
+        status: data.status
     }
 })
