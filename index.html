@@ -96,7 +96,7 @@
                 <div class="modal-body">
                     <form id="addtaskform">
                         <div class="form-group">
-                            <label for="taskname">Data</label>
+                            <label for="taskname">Task name</label>
                             <input type="text" name="taskname" class="form-control" id="taskname"
                                 placeholder="Enter name">
                         </div>
@@ -141,13 +141,19 @@
             <thead>
                 <tr>
                     <th scope="col" class="border-top-0">#</th>
-                    <th v-for="character in characters" class="text-center border-top-0 border-left">{{character.name}}
+                    <th v-for="(character, index) in characters" class="text-center border-top-0 border-left">{{character.name}}
+                        <button type="button" class="close" aria-label="Remove" v-on:click="removeCharacter(index)">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(task, taskIndex) in tasks">
-                    <th scope="row" class=""> {{task}}</th>
+                    <th scope="row" class="">{{task}} 
+                        <button type="button" class="close" aria-label="Remove" v-on:click="removeTask(taskIndex)">
+                            <span aria-hidden="true">&times;</span>
+                        </button></th>
                     <td v-for="(character, characterIndex) in characters" class="text-center border-left"> <input
                             type="checkbox" value="true" v-model="status[taskIndex][characterIndex]"> </td>
                 </tr>
@@ -156,7 +162,7 @@
     </div>
 
     <div class="container bg-light py-2 mt-lg-2">
-        <button type="button" class="btn btn-lg btn-danger w-100">
+        <button type="button" class="btn btn-lg btn-danger w-100" onclick="ResetCheckboxes()">
             Reset all checkboxes
         </button>
     </div>

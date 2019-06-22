@@ -52,12 +52,37 @@ function AddCharacter() {
     form.reset();
 }
 
-function Reset() {
-    data = {
-        characters: [],
-        tasks: [],
-        status: []
-    };
+function RemoveCharacter(index){
+    console.log(index);
+}
+
+function AddTask() {
+    var form = document.getElementById('addtaskform');
+    var formData = new FormData(form);
+
+    var taskName = formData.get('taskname');
+
+    data.status.push([]);
+    data.tasks.push(taskName);
+
+    form.reset();
+}
+
+function RemoveTask(index){
+    console.log(index);
+}
+
+function ResetCheckboxes() {
+    var status = [];
+    for (var i = 0; i < data.tasks.length; i++) {
+        status[i] = [];
+        for (var j = 0; j < data.characters.length; j++) {
+            status[i][j] = false;
+
+        }
+    }
+    data.status = status;
+    app.status = status;
 }
 
 function Import() {
@@ -93,5 +118,13 @@ var app = new Vue({
         characters: data.characters,
         tasks: data.tasks,
         status: data.status
+    },
+    methods: {
+        removeCharacter: function(index){
+            RemoveCharacter(index);
+        },
+        removeTask: function(index){
+            RemoveTask(index);
+        }
     }
 })
