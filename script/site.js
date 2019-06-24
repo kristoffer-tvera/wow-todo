@@ -178,7 +178,6 @@ function UpdateLocalStorage() {
     if (LocalStorageAvailable()) {
         clearTimeout(updateTimeout);
         updateTimeout = setTimeout(function () {
-            console.log('dumping to localstorage');
             window.localStorage.setItem('data', JSON.stringify(data));
         }, 100);
     }
