@@ -1,16 +1,16 @@
 var classes = [];
-classes[0] = { name: 'Warrior', color: '#C79C6E' };
-classes[1] = { name: 'Paladin', color: '#F58CBA' };
-classes[2] = { name: 'Hunter', color: '#ABD473' };
-classes[3] = { name: 'Rogue', color: '#FFF569' };
-classes[4] = { name: 'Priest', color: '#FFFFFF' };
-classes[5] = { name: 'Death Knight', color: '#C41F3B' };
-classes[6] = { name: 'Shaman', color: '#0070DE' };
-classes[7] = { name: 'Mage', color: '#40C7EB' };
-classes[8] = { name: 'Warlock', color: '#8787ED' };
-classes[9] = { name: 'Monk', color: '#00FF96' };
-classes[10] = { name: 'Druid', color: '#FF7D0A' };
-classes[11] = { name: 'Demon Hunter', color: '#A330C9' };
+classes[0] = { name: 'Warrior', color: '#C79C6E', text: '#000000' };
+classes[1] = { name: 'Paladin', color: '#F58CBA', text: '#000000' };
+classes[2] = { name: 'Hunter', color: '#ABD473', text: '#000000' };
+classes[3] = { name: 'Rogue', color: '#FFF569', text: '#000000' };
+classes[4] = { name: 'Priest', color: '#FFFFFF', text: '#000000' };
+classes[5] = { name: 'Death Knight', color: '#C41F3B', text: '#FFFFFF' };
+classes[6] = { name: 'Shaman', color: '#0070DE', text: '#FFFFFF' };
+classes[7] = { name: 'Mage', color: '#40C7EB', text: '#000000' };
+classes[8] = { name: 'Warlock', color: '#8787ED', text: '#000000' };
+classes[9] = { name: 'Monk', color: '#00FF96', text: '#000000' };
+classes[10] = { name: 'Druid', color: '#FF7D0A', text: '#000000' };
+classes[11] = { name: 'Demon Hunter', color: '#A330C9', text: '#FFFFFF' };
 
 var dummy1 = {
     id: 0,
@@ -33,8 +33,13 @@ var data = {
 data.characters = [dummy1, dummy2];
 data.tasks = ['Oondasta', 'Sha'];
 data.status = [];
-data.status[0] = [];
-data.status[1] = [];
+
+for (var i = 0; i < data.tasks.length; i++) {
+    data.status[i] = [];
+    for (var j = 0; j < data.characters.length; j++) {
+        data.status[i][j] = false;
+    }
+}
 
 function AddCharacter() {
     var form = document.getElementById('addcharform');
@@ -49,11 +54,19 @@ function AddCharacter() {
         class: classes[charClass]
     });
 
+    for (var i = 0; i < data.status.length; i++) {
+        data.status[i].push(false);
+    }
+
     form.reset();
 }
 
-function RemoveCharacter(index){
-    console.log(index);
+function RemoveCharacter(index) {
+    for (var i = 0; i < data.status.length; i++) {
+        data.status[i].splice(index, 1);
+    }
+
+    data.characters.splice(index, 1);
 }
 
 function AddTask() {
@@ -62,13 +75,18 @@ function AddTask() {
 
     var taskName = formData.get('taskname');
 
-    data.status.push([]);
+    var defaultValues = [];
+    for (var i = 0; i < data.characters.length; i++) {
+        defaultValues.push(false);
+    }
+
+    data.status.push(defaultValues);
     data.tasks.push(taskName);
 
     form.reset();
 }
 
-function RemoveTask(index){
+function RemoveTask(index) {
     data.tasks.splice(index, 1);
     data.status.splice(index, 1);
 }
@@ -79,7 +97,6 @@ function ResetCheckboxes() {
         status[i] = [];
         for (var j = 0; j < data.characters.length; j++) {
             status[i][j] = false;
-
         }
     }
     data.status = status;
@@ -121,11 +138,14 @@ var app = new Vue({
         status: data.status
     },
     methods: {
-        removeCharacter: function(index){
+        removeCharacter: function (index) {
             RemoveCharacter(index);
         },
-        removeTask: function(index){
+        removeTask: function (index) {
             RemoveTask(index);
+        },
+        classColors: function (playerclass) {
+            return 'color: ' + playerclass.text + '; background-color: ' + playerclass.color + ';';
         }
     }
 })

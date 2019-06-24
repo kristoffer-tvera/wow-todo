@@ -141,7 +141,7 @@
             <thead>
                 <tr>
                     <th scope="col" class="border-top-0">#</th>
-                    <th v-for="(character, index) in characters" class="text-center border-top-0 border-left">{{character.name}}
+                    <th v-for="(character, index) in characters" class="text-center border-top-0 border-left" v-bind:style="classColors(character.class)">{{character.name}}
                         <button type="button" class="close" aria-label="Remove" v-on:click="removeCharacter(index)">
                             <span aria-hidden="true">&times;</span>
                         </button>
