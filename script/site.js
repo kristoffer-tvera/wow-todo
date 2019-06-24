@@ -12,32 +12,55 @@ classes[9] = { name: 'Monk', color: '#00FF96', text: '#000000' };
 classes[10] = { name: 'Druid', color: '#FF7D0A', text: '#000000' };
 classes[11] = { name: 'Demon Hunter', color: '#A330C9', text: '#FFFFFF' };
 
-var dummy1 = {
-    id: 0,
-    name: 'Test1',
-    class: classes[2]
-};
+/*
+Initialization (falls back to empty data-obj, if nothing is in localstorage)
+*/
+var data;
+if (LocalStorageAvailable()) {
+    var currentData = window.localStorage.getItem('data');
+    if (currentData && currentData.length > 0) {
+        data = JSON.parse(currentData);
+    } else {
+        data = {
+            characters: [],
+            tasks: [],
+            status: []
+        };
+    }
+} else {
+    data = {
+        characters: [],
+        tasks: [],
+        status: []
+    };
+    alert('No LocalStorage. Saving/persisting will not be possible (this means: When you close this window, all data dissapears');
+}
 
-var dummy2 = {
-    id: 1,
-    name: 'Test2',
-    class: classes[7]
-};
+function LocalStorageAvailable() {
+    var pepe = 'meme';
+    try {
+        localStorage.setItem(pepe, pepe);
+        localStorage.removeItem(pepe);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
 
-var data = {
-    characters: [],
-    tasks: [],
-    status: []
-};
-
-data.characters = [dummy1, dummy2];
-data.tasks = ['Oondasta', 'Sha'];
-data.status = [];
-
-for (var i = 0; i < data.tasks.length; i++) {
-    data.status[i] = [];
-    for (var j = 0; j < data.characters.length; j++) {
-        data.status[i][j] = false;
+function GetClassFromId(id) {
+    switch (id.toString()) {
+        case '0': return { name: 'Warrior', color: '#C79C6E', text: '#000000' };
+        case '1': return { name: 'Paladin', color: '#F58CBA', text: '#000000' };
+        case '2': return { name: 'Hunter', color: '#ABD473', text: '#000000' };
+        case '3': return { name: 'Rogue', color: '#FFF569', text: '#000000' };
+        case '4': return { name: 'Priest', color: '#FFFFFF', text: '#000000' };
+        case '5': return { name: 'Death Knight', color: '#C41F3B', text: '#FFFFFF' };
+        case '6': return { name: 'Shaman', color: '#0070DE', text: '#FFFFFF' };
+        case '7': return { name: 'Mage', color: '#40C7EB', text: '#000000' };
+        case '8': return { name: 'Warlock', color: '#8787ED', text: '#000000' };
+        case '9': return { name: 'Monk', color: '#00FF96', text: '#000000' };
+        case '10': return { name: 'Druid', color: '#FF7D0A', text: '#000000' };
+        case '11': return { name: 'Demon Hunter', color: '#A330C9', text: '#FFFFFF' };
     }
 }
 
@@ -51,7 +74,7 @@ function AddCharacter() {
     data.characters.push({
         id: data.characters.length,
         name: charName,
-        class: classes[charClass]
+        class: charClass
     });
 
     for (var i = 0; i < data.status.length; i++) {
@@ -130,6 +153,17 @@ function Export() {
     textarea.value = JSON.stringify(data);
 }
 
+var updateTimeout;
+function UpdateLocalStorage() {
+    if (LocalStorageAvailable()) {
+        clearTimeout(updateTimeout);
+        updateTimeout = setTimeout(function () {
+            console.log('dumping to localstorage');
+            window.localStorage.setItem('data', JSON.stringify(data));
+        }, 100);
+    }
+}
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -144,8 +178,20 @@ var app = new Vue({
         removeTask: function (index) {
             RemoveTask(index);
         },
-        classColors: function (playerclass) {
-            return 'color: ' + playerclass.text + '; background-color: ' + playerclass.color + ';';
+        classColors: function (classId) {
+            var wowClass = GetClassFromId(classId);
+            return 'color: ' + wowClass.text + '; background-color: ' + wowClass.color + ';';
+        }
+    },
+    watch: {
+        characters: function () {
+            UpdateLocalStorage();
+        },
+        tasks: function () {
+            UpdateLocalStorage();
+        },
+        status: function () {
+            UpdateLocalStorage();
         }
     }
 })
