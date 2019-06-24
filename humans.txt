@@ -1,0 +1,10 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Kristoffer Tverå
+
+# TECHNOLOGY COLOPHON
+
+    CSS3, HTML5, Grunt, NPM, Sass, Javascript, Bootstrap 4
