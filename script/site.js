@@ -24,7 +24,15 @@ if (pwainstall) {
       });
   });
 }
-;;/*
+;if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        // Registration was successful
+      }, function(err) {
+        // registration failed :(
+      });
+    });
+  };/*
 Initialization (falls back to empty data-obj, if nothing is in localstorage)
 */
 var data;

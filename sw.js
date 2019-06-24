@@ -24,8 +24,7 @@ function precache() {
 		return cache.addAll([
 			'./',
 			'./styling/site.min.css',
-			'./script/site.min.js',
-			// 'https://fonts.googleapis.com/css?family=Roboto'
+			'./script/site.min.js'
 		]);
 	});
 }
