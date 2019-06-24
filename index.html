@@ -18,8 +18,6 @@
     <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> "browser" (its not really a browser now, is it). Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
-    <!-- Add your site or application content here -->
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand d-flex align-items-center" href="#">
             <img src="/favicon.ico" width="30" height="30" class="d-inline-block align-top mr-2" alt="">
@@ -60,18 +58,7 @@
                         <div class="form-group">
                             <label for="class">Select class</label>
                             <select class="form-control" id="class" name="class">
-                                <option value="0">Warrior</option>
-                                <option value="1">Paladin</option>
-                                <option value="2">Hunter</option>
-                                <option value="3">Rogue</option>
-                                <option value="4">Priest</option>
-                                <option value="5">Death Knight</option>
-                                <option value="6">Shaman</option>
-                                <option value="7">Mage</option>
-                                <option value="8">Warlock</option>
-                                <option value="9">Monk</option>
-                                <option value="10">Druid</option>
-                                <option value="11">Demon Hunter</option>
+                                <option v-for="n in availableClassIds" v-bind:value="n" >{{ getClassFromId(n).name }}</option>
                             </select>
                         </div>
                     </form>
@@ -144,7 +131,8 @@
             <thead>
                 <tr>
                     <th scope="col" class="border-top-0">#</th>
-                    <th v-for="(character, index) in characters" class="text-center border-top-0 border-left" v-bind:style="classColors(character.class)">{{character.name}}
+                    <th v-for="(character, index) in characters" class="text-center border-top-0 border-left"
+                        v-bind:style="classColors(character.class)">{{character.name}}
                         <button type="button" class="close" aria-label="Remove" v-on:click="removeCharacter(index)">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -153,7 +141,7 @@
             </thead>
             <tbody>
                 <tr v-for="(task, taskIndex) in tasks">
-                    <th scope="row" class="">{{task}} 
+                    <th scope="row" class="">{{task}}
                         <button type="button" class="close" aria-label="Remove" v-on:click="removeTask(taskIndex)">
                             <span aria-hidden="true">&times;</span>
                         </button></th>
@@ -182,5 +170,4 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="script/site.min.js"></script>
 </body>
-
 </html>

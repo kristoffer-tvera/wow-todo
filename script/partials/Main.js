@@ -1,17 +1,3 @@
-var classes = [];
-classes[0] = { name: 'Warrior', color: '#C79C6E', text: '#000000' };
-classes[1] = { name: 'Paladin', color: '#F58CBA', text: '#000000' };
-classes[2] = { name: 'Hunter', color: '#ABD473', text: '#000000' };
-classes[3] = { name: 'Rogue', color: '#FFF569', text: '#000000' };
-classes[4] = { name: 'Priest', color: '#FFFFFF', text: '#000000' };
-classes[5] = { name: 'Death Knight', color: '#C41F3B', text: '#FFFFFF' };
-classes[6] = { name: 'Shaman', color: '#0070DE', text: '#FFFFFF' };
-classes[7] = { name: 'Mage', color: '#40C7EB', text: '#000000' };
-classes[8] = { name: 'Warlock', color: '#8787ED', text: '#000000' };
-classes[9] = { name: 'Monk', color: '#00FF96', text: '#000000' };
-classes[10] = { name: 'Druid', color: '#FF7D0A', text: '#000000' };
-classes[11] = { name: 'Demon Hunter', color: '#A330C9', text: '#FFFFFF' };
-
 /*
 Initialization (falls back to empty data-obj, if nothing is in localstorage)
 */
@@ -192,6 +178,18 @@ var app = new Vue({
         },
         status: function () {
             UpdateLocalStorage();
+        }
+    }
+})
+
+var characterModal = new Vue({
+    el: '#addchar',
+    data: {
+        availableClassIds: [0,1,2,3,4,5,6,7,8,9,10,11]
+    },
+    methods: {
+        getClassFromId: function (id) {
+            return GetClassFromId(id);
         }
     }
 })
