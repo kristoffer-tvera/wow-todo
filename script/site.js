@@ -84,24 +84,30 @@ function GetClassFromId(id) {
     }
 }
 
-function AddCharacter() {
-    var form = document.getElementById('addcharform');
-    var formData = new FormData(form);
+var addcharform = document.querySelector('#addcharform');
+if (addcharform) {
+    addcharform.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    var charName = formData.get('name');
-    var charClass = formData.get('class');
+        var form = e.target;
+        var formData = new FormData(form);
 
-    data.characters.push({
-        id: data.characters.length,
-        name: charName,
-        class: charClass
-    });
+        var charName = formData.get('name');
+        var charClass = formData.get('class');
 
-    for (var i = 0; i < data.status.length; i++) {
-        data.status[i].push(false);
-    }
+        data.characters.push({
+            id: data.characters.length,
+            name: charName,
+            class: charClass
+        });
 
-    form.reset();
+        for (var i = 0; i < data.status.length; i++) {
+            data.status[i].push(false);
+        }
+
+        form.reset();
+        $('#addchar').modal('hide');
+    })
 }
 
 function RemoveCharacter(index) {
@@ -112,21 +118,27 @@ function RemoveCharacter(index) {
     data.characters.splice(index, 1);
 }
 
-function AddTask() {
-    var form = document.getElementById('addtaskform');
-    var formData = new FormData(form);
+var addtask = document.querySelector('#addtaskform');
+if (addtask) {
+    addtask.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    var taskName = formData.get('taskname');
+        var form = e.target;
+        var formData = new FormData(form);
 
-    var defaultValues = [];
-    for (var i = 0; i < data.characters.length; i++) {
-        defaultValues.push(false);
-    }
+        var taskName = formData.get('taskname');
 
-    data.status.push(defaultValues);
-    data.tasks.push(taskName);
+        var defaultValues = [];
+        for (var i = 0; i < data.characters.length; i++) {
+            defaultValues.push(false);
+        }
 
-    form.reset();
+        data.status.push(defaultValues);
+        data.tasks.push(taskName);
+
+        form.reset();
+        $('#addtask').modal('hide');
+    });
 }
 
 function RemoveTask(index) {
@@ -146,32 +158,38 @@ function ResetCheckboxes() {
     app.status = status;
 }
 
-function Import() {
-    var form = document.getElementById('dataform');
-    var textarea = form.querySelector('textarea');
-    var json = textarea.value;
-    if (json === '' || json.trim() === '') {
-        alert('no data');
-        return;
-    }
+var importdataform = document.querySelector('#importdataform');
+if (importdataform) {
+    importdataform.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    try {
-        data = JSON.parse(json);
-        app.characters = data.characters;
-        app.tasks = data.tasks;
-        app.status = data.status;
+        var form = e.target;
+        var textarea = form.querySelector('textarea');
+        var json = textarea.value;
+        if (json === '' || json.trim() === '') {
+            alert('no data');
+            return;
+        }
 
-        alert('Successfully imported data');
-    } catch (error) {
-        alert('Failed during import, data looks invalid');
-    }
+        try {
+            data = JSON.parse(json);
+            app.characters = data.characters;
+            app.tasks = data.tasks;
+            app.status = data.status;
+            $('#importdata').modal('hide');
+            alert('Successfully imported data');
+        } catch (error) {
+            alert('Failed during import, data looks invalid');
+        }
+    });
 }
 
-function Export() {
-    var form = document.getElementById('dataform');
-    var textarea = form.querySelector('textarea');
-    textarea.value = JSON.stringify(data);
-}
+$('#exportdata').on('shown.bs.modal', function () {
+    var textarea = document.getElementById('exportdatatextarea');
+    if (textarea) {
+        textarea.value = JSON.stringify(data);
+    }
+})
 
 var updateTimeout;
 function UpdateLocalStorage() {
@@ -218,7 +236,7 @@ var app = new Vue({
 var characterModal = new Vue({
     el: '#addchar',
     data: {
-        availableClassIds: [0,1,2,3,4,5,6,7,8,9,10,11]
+        availableClassIds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     },
     methods: {
         getClassFromId: function (id) {

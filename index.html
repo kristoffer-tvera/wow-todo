@@ -31,7 +31,8 @@
             <div class="navbar-nav w-100 text-center">
                 <a class="nav-item nav-link mx-lg-2" href="#addchar" data-toggle="modal">Add character</a>
                 <a class="nav-item nav-link mx-lg-2" href="#addtask" data-toggle="modal">Add task</a>
-                <a class="nav-item nav-link mx-lg-2" href="#data" data-toggle="modal">Import / Export data</a>
+                <a class="nav-item nav-link mx-lg-2" href="#importdata" data-toggle="modal">Import</a>
+                <a class="nav-item nav-link mx-lg-2" href="#exportdata" data-toggle="modal">Export</a>
                 <a class="nav-item nav-link mx-lg-2" href="#" id="pwainstall" style="display: none;" title="You can install this site as a PWA to make it available offline">PWA</a>
                 <a class="nav-item nav-link ml-lg-auto" href="https://github.com/kristoffer-tvera/wow-todo/issues">Issues / Help</a>
                 <a class="nav-item nav-link mx-lg-2" href="https://github.com/kristoffer-tvera/wow-todo">GitHub</a>
@@ -42,7 +43,7 @@
     <!-- Add Character Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="addchar">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <form class="modal-content" id="addcharform">
                 <div class="modal-header">
                     <h5 class="modal-title">Modal title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -50,33 +51,30 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="addcharform">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
-                        </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
+                    </div>
 
-                        <div class="form-group">
-                            <label for="class">Select class</label>
-                            <select class="form-control" id="class" name="class">
-                                <option v-for="n in availableClassIds" v-bind:value="n" >{{ getClassFromId(n).name }}</option>
-                            </select>
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="class">Select class</label>
+                        <select class="form-control" id="class" name="class">
+                            <option v-for="n in availableClassIds" v-bind:value="n" >{{ getClassFromId(n).name }}</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="AddCharacter()">Add</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
     <!-- Add Task Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="addtask">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <form class="modal-content"  id="addtaskform">
                 <div class="modal-header">
                     <h5 class="modal-title">Import / Export</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -84,26 +82,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="addtaskform">
-                        <div class="form-group">
-                            <label for="taskname">Task name</label>
-                            <input type="text" name="taskname" class="form-control" id="taskname"
-                                placeholder="Enter name">
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="taskname">Task name</label>
+                        <input type="text" name="taskname" class="form-control" id="taskname"
+                            placeholder="Enter name">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="AddTask()">Add</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- Import / Export Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="data">
+    <!-- Import Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="importdata">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <form class="modal-content"  id="importdataform">
                 <div class="modal-header">
                     <h5 class="modal-title">Import / Export</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -111,19 +107,39 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="dataform">
-                        <div class="form-group">
-                            <label for="datatextarea">Data</label>
-                            <textarea id="datatextarea" class="form-control" rows="5"></textarea>
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="importdatatextarea">Data</label>
+                        <textarea id="importdatatextarea" class="form-control" rows="5"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="Import()">Import</button>
-                    <button type="button" class="btn btn-primary" onclick="Export()">Export</button>
+                    <button type="submit" class="btn btn-primary">Import</button>
                 </div>
-            </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="exportdata">
+        <div class="modal-dialog" role="document">
+            <form class="modal-content"  id="exportdataform">
+                <div class="modal-header">
+                    <h5 class="modal-title">Import / Export</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exportdatatextarea">Data</label>
+                        <textarea id="exportdatatextarea" class="form-control" rows="5" readonly="readonly"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 
