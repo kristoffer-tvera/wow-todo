@@ -7,4 +7,4 @@
 
 # TECHNOLOGY COLOPHON
 
-    CSS3, HTML5, Grunt, NPM, Sass, Javascript, Bootstrap 4
+    CSS3, HTML5, Vue, Vue-CLI, NPM, Sass, Javascript

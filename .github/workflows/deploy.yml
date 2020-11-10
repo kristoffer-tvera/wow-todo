@@ -1,0 +1,46 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      # Populate secrets-file for php
+      - run: 'echo "$PHP_SECRET" > ./public/secrets.php'
+        shell: bash
+        env:
+          PHP_SECRET: ${{secrets.PHP}}
+
+      # Runs a single command using the runners shell
+      - name: Install Dependencies
+        run: npm install
+        
+      # Runs a single command using the runners shell
+      - name: Build for release
+        run: npm run build
+      
+      - name: List output files
+        run: ls
+
+      - name: List dist files
+        run: cd dist && ls && cd ..
+
+      - name: git status
+        run: git status -uno --porcelain
+
+      - name: reset package-lock.json
+        run: git checkout package-lock.json
+
+      - name: FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@3.1.1
+        with:
+          ftp-server: ftp://ftp.amusedtodeath.eu/todo/
+          ftp-username: amusedtodeath.eu
+          ftp-password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: dist

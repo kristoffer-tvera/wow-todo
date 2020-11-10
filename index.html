@@ -10,8 +10,8 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="/styling/site.min.css">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="./styling/site.min.css">
+    <link rel="manifest" href="./site.webmanifest">
 </head>
 
 <body>
@@ -34,6 +34,7 @@
                 <a class="nav-item nav-link mx-lg-2" href="#importdata" data-toggle="modal">Import</a>
                 <a class="nav-item nav-link mx-lg-2" href="#exportdata" data-toggle="modal">Export</a>
                 <a class="nav-item nav-link mx-lg-2" href="#" id="pwainstall" style="display: none;" title="You can install this site as a PWA to make it available offline">PWA</a>
+                <a class="nav-item nav-link mx-lg-2" href="/importcharacters.php?start=1">Import my characters from Battle.net</a>
                 <a class="nav-item nav-link ml-lg-auto" href="https://github.com/kristoffer-tvera/wow-todo/issues">Issues / Help</a>
                 <a class="nav-item nav-link mx-lg-2" href="https://github.com/kristoffer-tvera/wow-todo">GitHub</a>
             </div>
@@ -56,7 +57,7 @@
                         <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="classlist">
                         <label for="class">Select class</label>
                         <select class="form-control" id="class" name="class">
                             <option v-for="n in availableClassIds" v-bind:value="n" >{{ getClassFromId(n).name }}</option>
@@ -186,7 +187,7 @@
         crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="script/site.min.js"></script>
+    <script src="./script/site.js?v=1"></script>
     <script src="sw.js"></script>
 </body>
 </html>
