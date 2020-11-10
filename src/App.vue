@@ -1,15 +1,13 @@
 <template>
 <Navbar/>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Overview :character-list="characters"/>
   </div>
-<p>yieks</p>
   <Footer/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import Overview from './components/Overview.vue';
 import Footer from './components/Footer.vue';
 import Navbar from './components/Navbar.vue';
 // import NewTask from '.components/NewTask.vue';
@@ -18,11 +16,23 @@ import Navbar from './components/Navbar.vue';
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    Overview,
     Footer,
     Navbar,
     // NewTask,
     // DataImportExport
+  },
+  data() {
+    return {
+      characters: [],
+    }
+  },
+  beforeMount() {
+    let fromLocalStorage = localStorage.getItem("characters");
+    if (fromLocalStorage) {
+      var characterList = JSON.parse(fromLocalStorage);
+      this.characters = characterList;
+    }
   }
 }
 </script>

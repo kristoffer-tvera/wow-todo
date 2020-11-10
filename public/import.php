@@ -64,11 +64,12 @@
     foreach($decoded->wow_accounts as $account){
         foreach($account->characters as $character){
             $characters[] = (object)array(
+                'id' => $character->id,
                 'name' => $character->name, 
                 'realm' => $character->realm->name, 
-                'class' => $character->playable_class->name, 
-                'faction' => $character->faction->name, 
-                'id' => $character->id
+                'realm-slug' => $character->realm->slug, 
+                'class' => $character->playable_class->id, 
+                'faction' => $character->faction->name
             );
         }
     }
