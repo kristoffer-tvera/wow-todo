@@ -1,3 +1,4 @@
+<h1> We are currently updating all your characters</h1>
 <?php session_start();
     include_once 'secrets.php';
 
@@ -73,8 +74,6 @@
             );
         }
     }
-
-    echo json_encode($characters);
 ?>
 
 <script>
